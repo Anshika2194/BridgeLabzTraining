@@ -1,6 +1,7 @@
 package com.hospital.doctor;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Collections;
 
 //had problem in sort function as Collections.sort(doctorList) was giving error
 public class DoctorManagement {
@@ -28,11 +29,12 @@ public class DoctorManagement {
     }
 
     public void sortDoctorsByExperience() {
-        doctorList.sort(
-                Comparator.comparingInt(
-                        Doctor::getExperience
-                )
-        );
+       Collections.sort(doctorList, new Comparator<Doctor>() {
+            @Override
+            public int compare(Doctor d1, Doctor d2) {
+                return Integer.compare(d2.getExperience(), d1.getExperience());
+            }
+        });
 
 
     }
