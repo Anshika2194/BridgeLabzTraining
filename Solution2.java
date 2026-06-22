@@ -1,14 +1,9 @@
-import java.util.HashSet;
+import java.util.*;
 class Solution2 {
-    public boolean checkIfPangram(String sentence) {
-        HashSet<Character> set=new HashSet<>();
-        for(char ch:sentence.toCharArray()){
-            set.add(ch);
-        }
-        if(set.size()==26){
-            return true;
-        }
-        return false;
+    public int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        int ans=nums[nums.length-k];
+        return ans;
         
     }
 }
