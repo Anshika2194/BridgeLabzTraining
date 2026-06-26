@@ -1,0 +1,193 @@
+CREATE DATABASE CompanyDB;
+USE CompanyDB;
+CREATE TABLE Employee (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    department VARCHAR(50),
+    salary DECIMAL(10,2),
+    age INT,
+    city VARCHAR(50),
+    manager_id INT,
+    joining_date DATE
+);
+INSERT INTO Employee
+(emp_id, name, department, salary, age, city, manager_id, joining_date)
+VALUES
+(101, 'Anshika', 'IT', 65000, 21, 'Pune', 201, '2024-01-15'),
+(102, 'Anshika Asija', 'HR', 45000, 24, 'Mumbai', 202, '2023-06-20'),
+(103, 'Navreet', 'Finance', 70000, 26, 'Pune', 203, '2022-08-10'),
+(104, 'Navneet', 'IT', 55000, 23, 'Delhi', 201, '2024-03-18'),
+(105, 'Dheeptha', 'Sales', 48000, 25, 'Bangalore', 204, '2021-11-05'),
+(106, 'Neha', 'IT', 85000, 30, 'Pune', 201, '2020-09-12');
+
+CREATE TABLE Department (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(50)
+);
+INSERT INTO Department
+VALUES
+(1, 'IT'),
+(2, 'HR'),
+(3, 'Finance'),
+(4, 'Sales');
+
+-- third highest salary
+SELECT DISTINCT salary
+FROM Employee
+ORDER BY salary DESC
+LIMIT 2, 1;
+
+-- duplicate record delete
+INSERT INTO Employee
+VALUES
+(107,'Neha','IT',85000,30,'Pune',201,'2020-09-12'),
+(108,'Neha','IT',85000,30,'Pune',201,'2020-09-12');
+
+SET SQL_SAFE_UPDATES = 0;
+
+DELETE e1
+FROM Employee e1
+JOIN Employee e2
+ON e1.name = e2.name
+AND e1.department = e2.department
+AND e1.salary = e2.salary
+AND e1.age = e2.age
+AND e1.city = e2.city
+AND e1.manager_id = e2.manager_id
+AND e1.joining_date = e2.joining_date
+AND e1.emp_id > e2.emp_id;
+
+
+-- Join Without depname
+
+Drop table Department;
+
+CREATE TABLE Department (
+    department_id int PRIMARY KEY,
+    department_name VARCHAR(50)
+);
+INSERT INTO Department
+(department_id,department_name)
+VALUES
+(201, 'IT'),
+(202, 'HR'),
+(203,'Finance'),
+(204,'Sales');
+SELECT e.name,d.department_name
+FROM Employee e
+inner JOIN Department d
+ON e.manager_id = d.department_id;
+
+-- Display all employees
+SELECT * FROM Employee;
+
+-- Display only employee names
+SELECT name FROM Employee;
+
+-- Employees with salary greater than 50000
+SELECT * FROM Employee
+WHERE salary > 50000;
+
+-- Employees from Pune
+SELECT * FROM Employee
+WHERE city = 'Pune';
+
+-- Employees whose age is between 25 and 30
+SELECT * FROM Employee
+WHERE age BETWEEN 25 AND 30;
+
+-- Employees whose name starts with 'A'
+SELECT * FROM Employee
+WHERE name LIKE 'A%';
+
+-- Employees whose salary is NULL
+SELECT * FROM Employee
+WHERE salary IS NULL;
+
+-- Sort employees by salary (ascending)
+SELECT * FROM Employee
+ORDER BY salary ASC;
+
+-- Sort employees by salary (descending)
+SELECT * FROM Employee
+ORDER BY salary DESC;
+
+-- Display first 5 employees
+SELECT * FROM Employee
+LIMIT 5;
+
+-- Highest salary
+SELECT MAX(salary) AS highest_salary
+FROM Employee;
+
+-- Second highest salary
+SELECT MAX(salary) AS second_highest_salary
+FROM Employee
+WHERE salary < (
+    SELECT MAX(salary)
+    FROM Employee
+);
+
+-- Third highest salary
+SELECT DISTINCT salary
+FROM Employee
+ORDER BY salary DESC
+LIMIT 2,1;
+
+-- Average salary
+SELECT AVG(salary) AS average_salary
+FROM Employee;
+
+-- Total salary
+SELECT SUM(salary) AS total_salary
+FROM Employee;
+
+-- Lowest salary
+SELECT MIN(salary) AS lowest_salary
+FROM Employee;
+
+-- Total number of employees
+SELECT COUNT(*) AS total_employees
+FROM Employee;
+
+-- Distinct departments
+SELECT DISTINCT department
+FROM Employee;
+
+-- Employees from IT department
+SELECT * FROM Employee
+WHERE department = 'IT';
+
+-- Employees from Pune with salary > 50000
+SELECT * FROM Employee
+WHERE city = 'Pune'
+AND salary > 50000;
+
+-- Employee name with department name (JOIN)
+SELECT e.name,
+       d.department_name
+FROM Employee e
+INNER JOIN Department d
+ON e.manager_id = d.department_id;
+
+-- Employee name only using JOIN
+SELECT e.name
+FROM Employee e
+INNER JOIN Department d
+ON e.manager_id = d.department_id;
+
+-- Employee name and salary using JOIN
+SELECT e.name,
+       e.salary
+FROM Employee e
+INNER JOIN Department d
+ON e.manager_id = d.department_id;
+
+-- Employees ordered by joining date
+SELECT * FROM Employee
+ORDER BY joining_date ASC;
+
+-- Latest joined employee
+SELECT * FROM Employee
+ORDER BY joining_date DESC
+LIMIT 1;
