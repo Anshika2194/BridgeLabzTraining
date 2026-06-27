@@ -191,3 +191,9 @@ ORDER BY joining_date ASC;
 SELECT * FROM Employee
 ORDER BY joining_date DESC
 LIMIT 1;
+
+select top 3 * from Employee order by salary desc;
+select * from Employee where salary > (select * from Employee where department='HR');
+SELECT DEPARTMENT.department_name FROM DEPARTMENT LEFT JOIN EMPLOYEEE ON DEPARTMENT.department_name=EMPLOYEEE.deptartment;
+SELECT TOP 1 department_name,AVG(salary) AS avg_salary FROM EMPLOYEEE GROUP BY department ORDER BY AVG(salary) DESC;
+SELECT *FROM EMPLOYEEE WHERE joining_date>=DATEADD(DAY,-30,GETDATE());
